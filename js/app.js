@@ -1,49 +1,34 @@
+var express = require ('express');
+var nunjucks  = require('nunjucks');
 
+var app = express();
+app.use(express.static('/public'));
 
-// Create a request variable and assign a new XMLHttpRequest object to it.
-request = new XMLHttpRequest()
+// Apply nunjucks and add custom filter and function (for example). 
+var env = nunjucks.configure(['views/'], { // set folders with templates
+    autoescape: true, 
+    express: app
+});
+env.addFilter('myFilter', function(obj, arg1, arg2) {
+    console.log('myFilter', obj, arg1, arg2);
+    // Do smth with obj
+    return obj;  
+});
+env.addGlobal('myFunc', function(obj, arg1) { 
+    console.log('myFunc', obj, arg1);
+    // Do smth with obj
+    return obj;
+});
 
-page = 0;
-limit = 25;
-// pageReq = "?page="+page
-// limitReq = "?limit="+limit
+app.get('/', function(req, res){
+    res.render('index.html', {title: 'Main page'});    
+});
 
-urlApi = "https://api.rocketfid.com/activity/cache/all/"+page+"/"+limit
+app.get('/foo', function(req, res){
+    res.locals.smthVar = 'This is Sparta!';
+    res.render('foo.html', {title: 'Foo page'});    
+});
 
-request.open('GET', urlApi, true)
-request.setRequestHeader ("X-Instance", "rainbow");
-request.setRequestHeader ("X-Lang", "fr");
-request.setRequestHeader ("X-Widget-Version", "3.0.1");
-request.setRequestHeader ("Content-Type", "application/json");
-request.setRequestHeader ("Accept", "*/*");
-request.onload = function () {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response)
-
-
-
-
-
-
-
-
-  if (request.status >= 200 && request.status < 400) {
-    data.forEach((dataApi) => {
-      console.log(dataApi);
-              
-                var div = document.createElement("div");
-        div.style.width = "100px";
-        div.style.height = "100px";
-        div.style.background = "red";
-        div.style.color = "white";
-        div.innerHTML = dataApi.performer.nickname;
-
-        document.getElementById("main").appendChild(div);
-
-        
-    })
-  } else {
-    console.log('error')
-  }
-}
-request.send()
+app.listen(3000, function() {
+    console.log('Example app listening on port 3000...');
+});
