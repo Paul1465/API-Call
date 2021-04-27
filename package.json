@@ -5,6 +5,24 @@
     "tailwindcss": "^2.1.2"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "nunjucks": "^3.2.3"
-  }
+  },
+  "name": "rocketfid-app",
+  "description": "\"# Exercice-\"",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paul1465/Exercice-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Paul1465/Exercice-/issues"
+  },
+  "homepage": "https://github.com/Paul1465/Exercice-#readme"
 }
