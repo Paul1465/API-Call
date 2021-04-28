@@ -1,5 +1,6 @@
 var express = require('express');
 
+const api_helper = require('./public/js/api');
 var nunjucks  = require('nunjucks');
 
 var app = express();
@@ -22,14 +23,17 @@ env.addGlobal('myFunc', function(obj, arg1) {
     return obj;
 });
 
-app.get('/', function(req, res){
-    res.render('index.html', {title: 'Main page'});    
-});
+app.get('/', (req, res) => {
 
-app.get('/foo', function(req, res){
-    res.locals.smthVar = 'This is Sparta!';
-    res.render('foo.html', {title: 'Foo page'});    
-});
+    api_helper.make_API_call('https://api.rocketfid.com/activity/cache/all/0/25')
+
+    .then(response => {
+        res.render('index.njk', { nickname : response[0].performer.nickname})
+    })
+    .catch(error => {
+        res.send(error)
+    })
+})
 
 app.listen(4000, function() {
     console.log('Example app listening on port 4000...');
