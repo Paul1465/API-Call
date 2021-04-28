@@ -6,7 +6,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "nunjucks": "^3.2.3"
+    "nunjucks": "^3.2.3",
+    "request": "^2.88.2"
   },
   "name": "rocketfid-app",
   "description": "\"# Exercice-\"",
